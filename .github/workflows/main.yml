@@ -1,0 +1,36 @@
+name: Web Sitemi Yayınla
+
+on:
+  # Main branch'ine her push yapıldığında çalışır
+  push:
+    branches: ["main"]
+
+  # Manuel olarak çalıştırmak istersen izin verir
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (Kodları Getir)
+        uses: actions/checkout@v4
+
+      - name: Setup Pages (GitHub Pages Yapılandır)
+        uses: actions/configure-pages@v4
+
+      - name: Upload Artifact (Dosyaları Hazırla)
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.' # Projenin ana klasöründeki her şeyi yükle
+
+      - name: Deploy to GitHub Pages (Yayına Al)
+        id: deployment
+        uses: actions/deploy-pages@v4
