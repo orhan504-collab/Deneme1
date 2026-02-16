@@ -2,61 +2,42 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animasyonlu Web Sitem</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Boutique Beer Experience</title>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-    <div id="age-gate" class="age-gate-overlay">
-    <div class="age-gate-content" data-aos="zoom-in">
-        <img src="assets/images/logo.png" alt="Logo" style="width:100px; margin-bottom:20px;">
-        <h2>DUR! 🛑</h2>
-        <p>Bu siteye giriş yapmak için 18 yaşından büyük olmalısınız.</p>
-        <div class="age-gate-buttons">
-            <button onclick="verifyAge()" class="btn-yes">18 YAŞINDAN BÜYÜĞÜM</button>
-            <button onclick="rejectAge()" class="btn-no">KÜÇÜĞÜM</button>
-        </div>
-    </div>
-    </div>
-    
 <body>
-    <section class="container">
-    <h1 data-aos="zoom-in">Soğuk ve Taze 🍺</h1>
-    <p data-aos="fade-up">Seçkin lezzetler kapına geliyor.</p>
 
-    <div class="product-grid">
-        <div class="card" data-aos="fade-right" data-aos-delay="100">
-            <img src="assets/images/bira-1.png" alt="Craft Beer" style="width:100%">
-            <h3>Özel Craft Serisi</h3>
-            <p>Yoğun aroma, yumuşak içim.</p>
+    <div id="age-gate" class="age-gate-overlay">
+        <div class="age-gate-content">
+            <h2>DUR! 🛑</h2>
+            <p>Devam etmek için 18 yaşından büyük olmalısınız.</p>
+            <button onclick="verifyAge()" class="btn-yes">GİRİŞ YAP</button>
+        </div>
+    </div>
+
+    <header class="hero">
+        <div class="beer-animation">
+            <div class="bottle" id="bottle">🍾</div>
+            <div class="foam-container" id="foam-container"></div>
+        </div>
+        <h1 data-aos="fade-down">Soğuk ve Taze</h1>
+        <p>Seçkin tatlar kapına gelsin.</p>
+    </header>
+
+    <main class="product-grid">
+        <div class="card" data-aos="fade-up">
+            <div class="product-img">🍺</div>
+            <h3>IPA Serisi</h3>
             <button class="order-btn">Sipariş Ver</button>
         </div>
-
-        <div class="card" data-aos="fade-up" data-aos-delay="300">
-            <img src="assets/images/bira-2.png" alt="Draft Beer" style="width:100%">
+        <div class="card" data-aos="fade-up" data-aos-delay="200">
+            <div class="product-img">🍺</div>
             <h3>Klasik Fıçı</h3>
-            <p>Geleneksel lezzet, her zaman taze.</p>
             <button class="order-btn">Sipariş Ver</button>
         </div>
-
-        <div class="card" data-aos="fade-left" data-aos-delay="500">
-            <img src="assets/images/bira-3.png" alt="Red Ale" style="width:100%">
-            <h3>Red Ale</h3>
-            <p>Karamelize notalarla zenginleştirilmiş.</p>
-            <button class="order-btn">Sipariş Ver</button>
-        </div>
-    </div>
-    </section>
-    
-
-    <div class="container">
-        <h1 data-aos="fade-down" data-aos-duration="1500">Hoş Geldin! 🚀</h1>
-        <p data-aos="fade-up" data-aos-delay="500">Harika bir tasarım yolda...</p>
-        
-        <div class="box" data-aos="zoom-in" data-aos-delay="1000">
-            Dinamik İçerik Alanı
-        </div>
-    </div>
+    </main>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="script.js"></script>
