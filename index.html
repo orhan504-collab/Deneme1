@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Gerçekçi Bira Deneyimi</title>
+    <title>Premium Beer Experience</title>
     <style>
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
@@ -13,31 +13,28 @@
             overflow: hidden;
         }
 
-        /* ANA KONTEYNER */
-        .bottle-wrapper {
+        /* ANA TAŞIYICI */
+        .stage {
             position: relative;
-            height: 85vh;
+            height: 90vh; /* Ekranın %90'ı kadar yükseklik */
             display: flex;
             justify-content: center;
-            align-items: center;
         }
 
-        /* 1. ŞİŞE RESMİ (BURASI ÖNEMLİ) */
-        .bottle-img {
+        /* YÜKLEDİĞİN GERÇEK RESİM */
+        .bottle-image {
             height: 100%;
             object-fit: contain;
             z-index: 1;
-            /* Resme hafif bir parlama efekti veriyoruz */
-            filter: drop-shadow(0 0 15px rgba(255,165,0,0.1));
         }
 
-        /* 2. YARIM AÇIK KAPAK (Resmin üzerine biner) */
+        /* YAMUK KAPAK (AÇIK EFEKTİ) */
         .cap {
             position: absolute;
-            top: -5px; /* Şişenin ağzına göre yukarı-aşağı ayarla */
+            top: -5px; /* Resmine göre bu değeri yukarı/aşağı değiştirebilirsin */
             left: 50%;
-            width: 55px;
-            height: 22px;
+            width: 50px;
+            height: 20px;
             background: linear-gradient(to bottom, #ffd700, #b8860b);
             border-radius: 4px;
             transform: translateX(-40%) rotate(-25deg);
@@ -45,40 +42,24 @@
             box-shadow: 2px 5px 15px rgba(0,0,0,0.8);
         }
 
-        /* 3. AKAN KÖPÜKLER (Resmin üzerine biner) */
+        /* AKAN KÖPÜKLER */
         .foam-drip {
             position: absolute;
             background: #fff;
-            width: 30px;
-            border-radius: 0 0 20px 20px;
+            width: 25px;
+            border-radius: 0 0 15px 15px;
             z-index: 5;
-            filter: drop-shadow(0 0 10px rgba(255,255,255,0.8));
+            filter: drop-shadow(0 0 10px white);
             animation: flowDown 4s infinite ease-in-out;
         }
 
-        /* Köpüklerin yerini şişeye göre buradan ayarla */
-        .drip-left { left: 35%; top: 15%; height: 120px; }
-        .drip-right { right: 35%; top: 12%; height: 80px; animation-delay: 1.5s; }
+        /* Köpüklerin yerleşimi */
+        .drip-left { left: 25%; top: 15%; height: 120px; }
+        .drip-right { right: 25%; top: 12%; height: 80px; animation-delay: 1.5s; }
 
         @keyframes flowDown {
-            0%, 100% { height: 100px; transform: scaleY(1); }
-            50% { height: 180px; transform: scaleY(1.1); }
-        }
-
-        /* SİPARİŞ BUTONU (Şişenin üzerinde durur) */
-        .ui-layer {
-            position: absolute;
-            bottom: 15%;
-            z-index: 20;
-            text-align: center;
-        }
-
-        .btn {
-            background: #ffb400; color: #000; border: none;
-            padding: 15px 35px; border-radius: 50px;
-            font-weight: bold; cursor: pointer;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.6);
-            text-transform: uppercase;
+            0%, 100% { height: 100px; opacity: 0.8; }
+            50% { height: 180px; opacity: 1; }
         }
 
         /* GİRİŞ EKRANI */
@@ -88,33 +69,28 @@
             display: flex; justify-content: center; align-items: center;
             transition: 0.8s;
         }
+
+        .btn {
+            background: #ffb400; color: #000; border: none;
+            padding: 15px 30px; border-radius: 50px;
+            font-weight: bold; cursor: pointer;
+            text-transform: uppercase;
+        }
     </style>
 </head>
 <body>
 
     <div id="age-gate">
-        <button class="btn" onclick="enter()">GİRİŞİ ONAYLA (18+)</button>
+        <button class="btn" onclick="document.getElementById('age-gate').style.display='none'">GİRİŞ YAP (18+)</button>
     </div>
 
-    <div class="bottle-wrapper">
+    <div class="stage">
         <div class="cap"></div>
-        
         <div class="foam-drip drip-left"></div>
         <div class="foam-drip drip-right"></div>
 
-        <img src="https://pin.it/7yCyRMtxR" class="bottle-img" alt="Bira Şişesi">
-
-        <div class="ui-layer">
-            <button class="btn">SİPARİŞ VER</button>
-        </div>
+        <img src="bira-sisesi.png" class="bottle-image" alt="Bira Şişesi">
     </div>
 
-    <script>
-        function enter() {
-            const gate = document.getElementById('age-gate');
-            gate.style.opacity = '0';
-            setTimeout(() => { gate.style.display = 'none'; }, 800);
-        }
-    </script>
 </body>
 </html>
