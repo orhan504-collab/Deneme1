@@ -3,95 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Premium Beer</title>
+    <title>Premium Beer Motion</title>
     <style>
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
-            background-color: #000;
+            background: #000;
             display: flex; justify-content: center; align-items: center;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Arial', sans-serif;
             overflow: hidden;
         }
 
-        /* GERÇEKÇİ ARKA PLAN (Vignette Efekti) */
-        .main-container {
+        /* ANA KONTEYNER */
+        .stage {
             position: relative;
-            width: 100%;
+            width: 320px;
+            height: 90vh;
+            perspective: 1000px;
+        }
+
+        /* HAREKETLİ ŞİŞE GÖVDESİ */
+        .bottle {
+            position: relative;
+            width: 240px;
             height: 100%;
-            background: radial-gradient(circle, #222 0%, #000 100%);
+            margin: 0 auto;
+            background: linear-gradient(180deg, #f39c12 0%, #8e4400 100%);
+            border-radius: 120px 120px 40px 40px;
+            box-shadow: inset -20px 0 50px rgba(0,0,0,0.6), inset 20px 0 50px rgba(255,255,255,0.2);
+            animation: breathe 4s infinite ease-in-out; /* Hafif nefes alma/hareket efekti */
+        }
+
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        /* YARIM AÇIK KAPAK (HAREKETLİ) */
+        .cap {
+            position: absolute;
+            top: -50px; left: 50%;
+            width: 70px; height: 30px;
+            background: gold;
+            border-radius: 5px;
+            transform: translateX(-50%) rotate(-20deg);
+            z-index: 10;
+            animation: capWobble 2s infinite alternate;
+        }
+
+        @keyframes capWobble {
+            from { transform: translateX(-50%) rotate(-20deg); }
+            to { transform: translateX(-50%) rotate(-25deg) translateY(-5px); }
+        }
+
+        /* TAŞAN KÖPÜKLER (HAREKETLİ) */
+        .foam-flow {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            width: 100%;
+            height: 0;
+            background: white;
+            border-radius: 0 0 50px 50px;
+            transform: translateX(-50%);
+            z-index: 5;
+            opacity: 0.9;
+            box-shadow: 0 0 20px white;
+            animation: foamPour 5s forwards; /* Sayfa açılınca köpük dökülür */
+        }
+
+        @keyframes foamPour {
+            0% { height: 0; opacity: 0; }
+            20% { height: 150px; opacity: 1; }
+            100% { height: 250px; opacity: 0.8; }
+        }
+
+        /* ŞİŞE İÇİNDEKİ HAREKETLİ BALONCUKLAR */
+        .bubble {
+            position: absolute;
+            background: rgba(255,255,255,0.4);
+            border-radius: 50%;
+            bottom: 10px;
+            animation: rise 3s infinite linear;
+        }
+
+        @keyframes rise {
+            0% { transform: translateY(0) scale(1); opacity: 0; }
+            50% { opacity: 0.7; }
+            100% { transform: translateY(-500px) scale(0.5); opacity: 0; }
+        }
+
+        /* GİRİŞ EKRANI */
+        #gate {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 100;
             display: flex; justify-content: center; align-items: center;
         }
 
-        /* ŞİŞE GÖRSELİ - Burası tasarımın kalbi */
-        /* Not: Gerçek bir görsel linki kullanarak gerçekçiliği sağlıyoruz */
-        .bottle-image {
-            height: 90vh;
-            filter: drop-shadow(0 0 30px rgba(255,165,0,0.3));
-            position: relative;
-            z-index: 1;
+        .enter-btn {
+            background: #ffb400; border: none; padding: 20px 40px;
+            border-radius: 50px; font-weight: bold; cursor: pointer;
         }
-
-        /* ETİKET VE BUTONLAR (Şişenin üzerine binen kısım) */
-        .ui-layer {
-            position: absolute;
-            top: 55%; 
-            width: 220px;
-            text-align: center;
-            z-index: 10;
-        }
-
-        .order-btn {
-            background: #ffb400;
-            color: #000;
-            border: none;
-            padding: 15px 30px;
-            font-weight: 900;
-            border-radius: 50px;
-            cursor: pointer;
-            text-transform: uppercase;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-            transition: 0.3s;
-        }
-
-        .order-btn:active { transform: scale(0.9); }
-
-        /* YAŞ DOĞRULAMA (SİYAH EKRAN) */
-        #age-gate {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #000;
-            z-index: 100;
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            transition: 1s ease-in-out;
-        }
-
-        h2 { color: #ffb400; font-size: 2rem; margin-bottom: 20px; }
     </style>
 </head>
 <body>
 
-    <div id="age-gate">
-        <h2>GİRİŞ 🔞</h2>
-        <button class="order-btn" onclick="enter()">18 YAŞINDAN BÜYÜĞÜM</button>
+    <div id="gate">
+        <button class="enter-btn" onclick="startApp()">GİRİŞ YAP VE KÖPÜRT 🍺</button>
     </div>
 
-    <div class="main-container">
-        <img src="https://www.freeiconspng.com/uploads/beer-bottle-png-3.png" class="bottle-image" id="bottle" alt="Bira Şişesi">
-
-        <div class="ui-layer">
-            <h1 style="color:white; font-size: 1.2rem; margin-bottom: 20px; text-shadow: 2px 2px 10px #000;">PREMIUM QUALITY</h1>
-            <button class="order-btn">SİPARİŞ VER</button>
+    <div class="stage">
+        <div class="cap"></div>
+        <div class="foam-flow" id="foam"></div>
+        
+        <div class="bottle">
+            <div id="bubble-box"></div>
+            <div style="position:absolute; top:50%; width:100%; background:rgba(255,255,255,0.9); padding:20px 0; text-align:center; color:black;">
+                <h2 style="margin:0">PREMIUM BREW</h2>
+                <button style="background:black; color:white; border:none; padding:10px; margin-top:10px; border-radius:5px;">SİPARİŞ VER</button>
+            </div>
         </div>
     </div>
 
     <script>
-        function enter() {
-            const gate = document.getElementById('age-gate');
-            gate.style.opacity = '0';
-            setTimeout(() => {
-                gate.style.visibility = 'hidden';
-            }, 1000);
+        function startApp() {
+            document.getElementById('gate').style.display = 'none';
+            // Baloncukları oluştur
+            const box = document.getElementById('bubble-box');
+            for(let i=0; i<40; i++) {
+                setTimeout(() => {
+                    const b = document.createElement('div');
+                    b.className = 'bubble';
+                    let s = Math.random() * 10 + 5 + 'px';
+                    b.style.width = s; b.style.height = s;
+                    b.style.left = Math.random() * 100 + '%';
+                    b.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    box.appendChild(b);
+                }, i * 100);
+            }
         }
     </script>
 </body>
