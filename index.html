@@ -2,101 +2,139 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Bira Sipariş | Premium</title>
-    
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bira Sipariş</title>
     <style>
-        :root { --amber: #ffb400; --dark: #0f0f0f; }
-        body { background-color: var(--dark); color: white; margin: 0; font-family: sans-serif; overflow-x: hidden; }
-
-        /* YAŞ DOĞRULAMA */
-        .age-gate-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.98); z-index: 10000;
-            display: flex; justify-content: center; align-items: center;
+        /* TEMEL STİLLER */
+        body { 
+            background-color: #0f0f0f; 
+            color: white; 
+            margin: 0; 
+            font-family: sans-serif; 
+            text-align: center;
         }
-        .age-gate-content {
-            background: #1a1a1a; padding: 40px; border-radius: 20px;
-            text-align: center; border: 2px solid var(--amber); width: 85%; max-width: 400px;
-        }
-        .btn-yes { background: var(--amber); color: black; border: none; padding: 15px; border-radius: 8px; font-weight: bold; width: 100%; cursor: pointer; }
 
-        /* BİRA VE KÖPÜK */
-        .hero { height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; }
-        .bottle { font-size: 100px; z-index: 10; cursor: pointer; user-select: none; }
+        /* YAŞ DOĞRULAMA - EKRANI KAPLAYAN SİYAH KATMAN */
+        #age-gate {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-box {
+            background: #1a1a1a;
+            padding: 30px;
+            border: 2px solid #ffb400;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 350px;
+        }
+
+        .btn {
+            background: #ffb400;
+            color: black;
+            border: none;
+            padding: 15px 30px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        /* ANA İÇERİK */
+        .hero { padding: 50px 20px; }
+        .bottle { font-size: 80px; cursor: pointer; display: inline-block; }
         
+        /* KÖPÜK ANİMASYONU */
         .foam {
-            position: absolute; background: white; border-radius: 50%;
-            pointer-events: none; opacity: 0.8;
-            animation: pour 2s forwards ease-in;
-        }
-        @keyframes pour {
-            0% { transform: translateY(0) scale(0.5); opacity: 1; }
-            100% { transform: translateY(600px) scale(3); opacity: 0; }
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: pourDown 2s forwards;
         }
 
-        /* ÜRÜNLER */
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; padding: 20px; }
-        .card { background: #1a1a1a; padding: 20px; border-radius: 15px; text-align: center; border: 1px solid #333; }
-        .order-btn { background: var(--amber); border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; margin-top: 10px; }
+        @keyframes pourDown {
+            0% { transform: translateY(0) scale(0.5); opacity: 1; }
+            100% { transform: translateY(500px) scale(2); opacity: 0; }
+        }
+
+        .products {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .card {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+            width: 250px;
+            border: 1px solid #333;
+        }
     </style>
 </head>
 <body>
 
-    <div id="age-gate" class="age-gate-overlay">
-        <div class="age-gate-content">
+    <div id="age-gate">
+        <div class="modal-box">
             <h2>DUR! 🛑</h2>
-            <p>Devam etmek için 18 yaşından büyük olmalısınız.</p>
-            <button onclick="verifyAge()" class="btn-yes">GİRİŞ YAP</button>
+            <p>18 yaşından büyük müsünüz?</p>
+            <button class="btn" onclick="verify()">EVET, GİRİŞ YAP</button>
         </div>
     </div>
 
-    <header class="hero">
+    <div class="hero">
         <div id="bottle" class="bottle">🍺</div>
-        <div id="foam-container" style="position: absolute; top: 40%;"></div>
-        <h1 data-aos="fade-down">Soğuk ve Taze</h1>
-    </header>
+        <div id="foam-area"></div>
+        <h1>Soğuk ve Taze</h1>
+        <p>Köpükleri görmek için biraya tıkla!</p>
+    </div>
 
-    <main class="product-grid">
-        <div class="card" data-aos="fade-up">
-            <div style="font-size: 50px;">🍺</div>
-            <h3>IPA Craft</h3>
-            <button class="order-btn">Sipariş Ver</button>
+    <div class="products">
+        <div class="card">
+            <h3>Özel IPA</h3>
+            <button class="btn">Sipariş</button>
         </div>
-        <div class="card" data-aos="fade-up" data-aos-delay="200">
-            <div style="font-size: 50px;">🍻</div>
-            <h3>Klasik Lager</h3>
-            <button class="order-btn">Sipariş Ver</button>
+        <div class="card">
+            <h3>Lager</h3>
+            <button class="btn">Sipariş</button>
         </div>
-    </main>
+    </div>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init();
-
-        function verifyAge() {
+        // Siyah ekranı kaldıran fonksiyon
+        function verify() {
             document.getElementById('age-gate').style.display = 'none';
-            startPouring();
+            pour(); // Giriş yapınca köpükleri başlat
         }
 
-        function startPouring() {
-            const container = document.getElementById('foam-container');
-            for (let i = 0; i < 50; i++) {
+        // Köpük dökülme animasyonu
+        function pour() {
+            const area = document.getElementById('foam-area');
+            for (let i = 0; i < 40; i++) {
                 setTimeout(() => {
-                    const foam = document.createElement('div');
-                    foam.className = 'foam';
-                    const size = Math.random() * 25 + 10 + 'px';
-                    foam.style.width = size; foam.style.height = size;
-                    foam.style.left = (Math.random() * 40 - 20) + 'px';
-                    container.appendChild(foam);
-                    setTimeout(() => foam.remove(), 2000);
+                    const f = document.createElement('div');
+                    f.className = 'foam';
+                    f.style.left = (window.innerWidth / 2 + (Math.random() * 40 - 20)) + 'px';
+                    f.style.top = '150px';
+                    const s = Math.random() * 20 + 10 + 'px';
+                    f.style.width = s; f.style.height = s;
+                    area.appendChild(f);
+                    setTimeout(() => f.remove(), 2000);
                 }, i * 50);
             }
         }
 
-        document.getElementById('bottle').addEventListener('click', startPouring);
+        // Biraya tıklayınca köpürt
+        document.getElementById('bottle').onclick = pour;
     </script>
 </body>
 </html>
