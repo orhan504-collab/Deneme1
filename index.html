@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Premium Beer Motion</title>
+    <title>Premium Beer Experience</title>
     <style>
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
@@ -13,133 +13,129 @@
             overflow: hidden;
         }
 
-        /* ANA KONTEYNER */
-        .stage {
+        /* 1. GERÇEKÇİ ŞİŞE SİMETRİSİ */
+        .bottle-container {
             position: relative;
-            width: 320px;
-            height: 90vh;
-            perspective: 1000px;
+            width: 300px;
+            height: 85vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        /* HAREKETLİ ŞİŞE GÖVDESİ */
-        .bottle {
-            position: relative;
+        /* Boyun Kısmı */
+        .bottle-neck {
+            width: 60px;
+            height: 120px;
+            background: linear-gradient(90deg, #4d2600, #a65d00, #4d2600);
+            border-radius: 10px 10px 0 0;
+            z-index: 2;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        /* Gövde ve Omuz Geçişi */
+        .bottle-body {
             width: 240px;
-            height: 100%;
-            margin: 0 auto;
-            background: linear-gradient(180deg, #f39c12 0%, #8e4400 100%);
-            border-radius: 120px 120px 40px 40px;
-            box-shadow: inset -20px 0 50px rgba(0,0,0,0.6), inset 20px 0 50px rgba(255,255,255,0.2);
-            animation: breathe 4s infinite ease-in-out; /* Hafif nefes alma/hareket efekti */
+            height: 400px;
+            background: linear-gradient(180deg, #a65d00 0%, #734000 100%);
+            border-radius: 100px 100px 30px 30px; /* Gerçek omuz hattı */
+            margin-top: -40px;
+            position: relative;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.05);
+            z-index: 1;
         }
 
-        @keyframes breathe {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-        }
-
-        /* YARIM AÇIK KAPAK (HAREKETLİ) */
+        /* 2. YAMUK KAPAK (Dinamik) */
         .cap {
             position: absolute;
-            top: -50px; left: 50%;
-            width: 70px; height: 30px;
-            background: gold;
+            top: -15px;
+            width: 65px;
+            height: 25px;
+            background: linear-gradient(to bottom, #ffd700, #b8860b);
             border-radius: 5px;
-            transform: translateX(-50%) rotate(-20deg);
+            transform: rotate(-25deg) translateX(-10px);
             z-index: 10;
-            animation: capWobble 2s infinite alternate;
+            box-shadow: 2px 5px 10px rgba(0,0,0,0.5);
         }
 
-        @keyframes capWobble {
-            from { transform: translateX(-50%) rotate(-20deg); }
-            to { transform: translateX(-50%) rotate(-25deg) translateY(-5px); }
-        }
-
-        /* TAŞAN KÖPÜKLER (HAREKETLİ) */
-        .foam-flow {
+        /* 3. TAŞAN VE AKAN KÖPÜKLER */
+        .foam-head {
             position: absolute;
-            top: 20px;
-            left: 50%;
-            width: 100%;
-            height: 0;
-            background: white;
-            border-radius: 0 0 50px 50px;
-            transform: translateX(-50%);
+            top: 20px; width: 80px; height: 60px;
+            background: #fff; border-radius: 50%;
+            filter: drop-shadow(0 0 10px white);
             z-index: 5;
-            opacity: 0.9;
-            box-shadow: 0 0 20px white;
-            animation: foamPour 5s forwards; /* Sayfa açılınca köpük dökülür */
         }
 
-        @keyframes foamPour {
-            0% { height: 0; opacity: 0; }
-            20% { height: 150px; opacity: 1; }
-            100% { height: 250px; opacity: 0.8; }
-        }
-
-        /* ŞİŞE İÇİNDEKİ HAREKETLİ BALONCUKLAR */
-        .bubble {
+        .foam-drip {
             position: absolute;
-            background: rgba(255,255,255,0.4);
-            border-radius: 50%;
-            bottom: 10px;
-            animation: rise 3s infinite linear;
+            background: #fff;
+            width: 35px;
+            border-radius: 0 0 20px 20px;
+            z-index: 6;
+            animation: drip 4s infinite ease-in-out;
         }
 
-        @keyframes rise {
-            0% { transform: translateY(0) scale(1); opacity: 0; }
-            50% { opacity: 0.7; }
-            100% { transform: translateY(-500px) scale(0.5); opacity: 0; }
+        .drip-left { left: 40px; top: 80px; height: 180px; animation-delay: 0s; }
+        .drip-right { right: 40px; top: 60px; height: 120px; animation-delay: 1.5s; }
+
+        @keyframes drip {
+            0%, 100% { height: 150px; transform: scaleY(1); }
+            50% { height: 200px; transform: scaleY(1.1); }
+        }
+
+        /* 4. İÇERİK ETİKETİ */
+        .label {
+            position: absolute;
+            bottom: 60px; width: 85%;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px 0; border-radius: 3px;
+            text-align: center; color: #000; z-index: 20;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+
+        .order-btn {
+            background: #000; color: #fff; border: none;
+            padding: 10px 20px; margin-top: 10px; border-radius: 5px;
+            font-weight: bold; cursor: pointer;
         }
 
         /* GİRİŞ EKRANI */
-        #gate {
+        #age-gate {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; z-index: 100;
+            background: #000; z-index: 1000;
             display: flex; justify-content: center; align-items: center;
-        }
-
-        .enter-btn {
-            background: #ffb400; border: none; padding: 20px 40px;
-            border-radius: 50px; font-weight: bold; cursor: pointer;
+            transition: 0.8s;
         }
     </style>
 </head>
 <body>
 
-    <div id="gate">
-        <button class="enter-btn" onclick="startApp()">GİRİŞ YAP VE KÖPÜRT 🍺</button>
+    <div id="age-gate">
+        <button style="background:#ffb400; border:none; padding:20px 40px; border-radius:50px; font-weight:bold; cursor:pointer;" onclick="unlock()">SİTEYE GİRİŞ YAP (18+)</button>
     </div>
 
-    <div class="stage">
+    <div class="bottle-container">
         <div class="cap"></div>
-        <div class="foam-flow" id="foam"></div>
+        <div class="foam-head"></div>
+        <div class="foam-drip drip-left"></div>
+        <div class="foam-drip drip-right"></div>
         
-        <div class="bottle">
-            <div id="bubble-box"></div>
-            <div style="position:absolute; top:50%; width:100%; background:rgba(255,255,255,0.9); padding:20px 0; text-align:center; color:black;">
+        <div class="bottle-neck"></div>
+        <div class="bottle-body">
+            <div class="label">
                 <h2 style="margin:0">PREMIUM BREW</h2>
-                <button style="background:black; color:white; border:none; padding:10px; margin-top:10px; border-radius:5px;">SİPARİŞ VER</button>
+                <p style="margin:5px 0; font-size:12px; letter-spacing:2px;">SOĞUK & TAZE</p>
+                <button class="order-btn">SİPARİŞ VER</button>
             </div>
         </div>
     </div>
 
     <script>
-        function startApp() {
-            document.getElementById('gate').style.display = 'none';
-            // Baloncukları oluştur
-            const box = document.getElementById('bubble-box');
-            for(let i=0; i<40; i++) {
-                setTimeout(() => {
-                    const b = document.createElement('div');
-                    b.className = 'bubble';
-                    let s = Math.random() * 10 + 5 + 'px';
-                    b.style.width = s; b.style.height = s;
-                    b.style.left = Math.random() * 100 + '%';
-                    b.style.animationDuration = (Math.random() * 2 + 2) + 's';
-                    box.appendChild(b);
-                }, i * 100);
-            }
+        function unlock() {
+            document.getElementById('age-gate').style.opacity = '0';
+            setTimeout(() => { document.getElementById('age-gate').style.display = 'none'; }, 800);
         }
     </script>
 </body>
