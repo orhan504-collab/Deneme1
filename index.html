@@ -3,200 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Premium Beer - Foam Edition</title>
+    <title>Premium Beer Experience</title>
     <style>
-        :root {
-            --beer-gold: #f39c12;
-            --beer-dark: #d35400;
-            --foam-white: #ffffff;
-        }
-
-        body {
-            background-color: #0a0a0a;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            background: #000; /* Arka plan tamamen siyah */
+            display: flex; justify-content: center; align-items: center;
             font-family: 'Arial', sans-serif;
             overflow: hidden;
         }
 
-        /* YAŞ DOĞRULAMA KATMANI */
-        #age-gate {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95);
-            z-index: 1000;
-            display: flex; justify-content: center; align-items: center;
-            transition: 0.8s;
-        }
-
-        .modal {
-            background: #1a1a1a; padding: 40px; border-radius: 20px;
-            text-align: center; border: 2px solid var(--beer-gold); color: white;
-            width: 80%; max-width: 320px;
-        }
-
-        /* ŞİŞE ANA GÖVDESİ */
-        .bottle-container {
+        /* GERÇEKÇİ ŞİŞE TASARIMI (CAM VE IŞIK EFEKTİ) */
+        .bottle-wrap {
             position: relative;
-            width: 280px;
-            height: 80vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .bottle-body {
-            position: relative;
-            width: 240px;
-            height: 100%;
-            background: linear-gradient(180deg, var(--beer-gold), var(--beer-dark));
-            border-radius: 100px 100px 40px 40px;
-            box-shadow: inset 0 0 40px rgba(0,0,0,0.5);
+            width: 320px;
+            height: 90vh;
+            background: linear-gradient(160deg, #5c2d06 0%, #ff9d00 30%, #5c2d06 70%, #1a0f00 100%);
+            border-radius: 150px 150px 60px 60px;
+            box-shadow: 
+                inset 0 0 100px rgba(0,0,0,0.8), 
+                0 0 40px rgba(255,157,0,0.2);
             border: 1px solid rgba(255,255,255,0.1);
-            overflow: hidden;
+            display: flex; flex-direction: column; align-items: center;
             z-index: 1;
         }
 
-        /* YARIM AÇIK KAPAK */
-        .cap {
+        /* CAM PARLAMASI (Gerçekçilik katan detay) */
+        .bottle-wrap::after {
+            content: "";
             position: absolute;
-            top: -60px;
-            width: 60px;
-            height: 25px;
-            background: #b8860b;
-            border-radius: 5px;
-            transform: rotate(-25deg) translateX(-10px);
+            top: 10%; left: 15%; width: 15px; height: 70%;
+            background: rgba(255,255,255,0.15);
+            border-radius: 20px; filter: blur(8px);
+        }
+
+        /* YAMUK KAPAK */
+        .bottle-cap {
+            position: absolute;
+            top: -65px; left: 110px;
+            width: 70px; height: 30px;
+            background: linear-gradient(to bottom, #ffd700, #b8860b);
+            border-radius: 5px 5px 2px 2px;
+            transform: rotate(-30deg); /* Yarım açık efekti */
+            box-shadow: 4px 10px 15px rgba(0,0,0,0.6);
             z-index: 10;
-            box-shadow: 2px 5px 10px rgba(0,0,0,0.5);
         }
 
-        /* TAŞAN KÖPÜKLER */
-        .foam-overflow {
+        /* AKAN KÖPÜKLER (GERÇEKÇİ FORM) */
+        .foam-top {
             position: absolute;
-            top: -40px;
-            width: 80px;
-            height: 100px;
-            background: var(--foam-white);
-            border-radius: 40px;
+            top: -50px; width: 90px; height: 80px;
+            background: #fff; border-radius: 50% 50% 40% 40%;
+            filter: drop-shadow(0 0 15px rgba(255,255,255,0.5));
             z-index: 5;
-            filter: drop-shadow(0 0 10px white);
         }
 
-        /* Şişe yanından süzülen köpük damlaları */
         .foam-drip {
             position: absolute;
-            background: var(--foam-white);
-            width: 30px;
-            height: 150px;
-            top: 40px;
-            border-radius: 0 0 20px 20px;
+            background: #fff; width: 45px;
+            border-radius: 0 0 30px 30px;
             z-index: 6;
-            animation: dripDown 3s infinite ease-in-out;
+            box-shadow: inset -5px -10px 20px rgba(0,0,0,0.1);
+            animation: flow 4s infinite ease-in-out;
         }
 
-        .drip-left { left: 20px; height: 200px; animation-delay: 0.5s; }
-        .drip-right { right: 20px; height: 120px; animation-delay: 1.2s; }
+        .drip-1 { left: 40px; top: 20px; height: 250px; width: 35px; animation-delay: 0s; }
+        .drip-2 { right: 30px; top: 10px; height: 150px; width: 50px; animation-delay: 1.5s; }
 
-        @keyframes dripDown {
-            0% { transform: translateY(0); height: 100px; }
-            50% { height: 180px; }
-            100% { transform: translateY(20px); height: 150px; }
+        @keyframes flow {
+            0%, 100% { height: 200px; }
+            50% { height: 230px; }
         }
 
-        /* İÇERİK ETİKETİ */
-        .label {
-            position: absolute;
-            top: 40%;
-            width: 90%;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 20px 0;
-            color: #333;
-            text-align: center;
-            border-radius: 5px;
-            z-index: 20;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        /* YAŞ DOĞRULAMA (SİTEYE GİRİŞ) */
+        #gate {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 999;
+            display: flex; justify-content: center; align-items: center;
+            transition: 1.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .btn {
-            background: var(--beer-gold);
-            color: black;
-            border: none;
-            padding: 12px 25px;
-            font-weight: bold;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 80%;
-            margin-top: 15px;
+            background: #ff9d00; color: #000; border: none;
+            padding: 20px 40px; font-weight: bold; border-radius: 50px;
+            cursor: pointer; font-size: 1.2rem; box-shadow: 0 0 20px rgba(255,157,0,0.5);
         }
 
-        /* KÖPÜK BALONCUKLARI (Şişe içi) */
-        .bubble {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 50%;
-            bottom: -20px;
-            animation: rise 4s infinite linear;
-        }
-
-        @keyframes rise {
-            0% { transform: translateY(0); opacity: 0; }
-            100% { transform: translateY(-600px); opacity: 0; }
+        /* ÜRÜN ETİKETİ */
+        .label-area {
+            margin-top: auto; margin-bottom: 50px;
+            width: 85%; background: rgba(255,255,255,0.95);
+            padding: 30px 0; border-radius: 5px;
+            text-align: center; color: #000; z-index: 20;
         }
     </style>
 </head>
 <body>
 
-    <div id="age-gate">
-        <div class="modal">
-            <h2>GİRİŞ 🔞</h2>
-            <p>18 yaşından büyük olduğunuzu onaylıyor musunuz?</p>
-            <button class="btn" onclick="startApp()">ONAYLIYORUM</button>
-        </div>
+    <div id="gate">
+        <button class="btn" onclick="openBeer()">GİRİŞİ ONAYLA (18+)</button>
     </div>
 
-    <div class="bottle-container">
-        <div class="cap"></div>
-        
-        <div class="foam-overflow"></div>
-        
-        <div class="foam-drip drip-left"></div>
-        <div class="foam-drip drip-right"></div>
+    <div class="bottle-wrap">
+        <div class="bottle-cap"></div>
+        <div class="foam-top"></div>
+        <div class="foam-drip drip-1"></div>
+        <div class="foam-drip drip-2"></div>
 
-        <div class="bottle-body">
-            <div id="bubbles-container"></div>
-            
-            <div class="label">
-                <h1 style="margin:0; font-size: 20px;">PREMIUM BEER</h1>
-                <p style="margin:5px 0; font-size: 14px;">SOĞUK VE TAZE</p>
-                <button class="btn">SİPARİŞ VER</button>
-            </div>
+        <div class="label-area">
+            <h1 style="margin:0; font-size: 1.5rem;">PREMIUM BREW</h1>
+            <p style="letter-spacing: 2px; font-size: 0.8rem;">SOĞUK & TAZE</p>
+            <button style="margin-top:15px; background:#000; color:#fff; border:none; padding:10px 20px; border-radius:5px; font-weight:bold;">HEMEN SİPARİŞ VER</button>
         </div>
     </div>
 
     <script>
-        function startApp() {
-            document.getElementById('age-gate').style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById('age-gate').style.display = 'none';
-                generateBubbles();
-            }, 800);
-        }
-
-        function generateBubbles() {
-            const container = document.getElementById('bubbles-container');
-            setInterval(() => {
-                const b = document.createElement('div');
-                b.className = 'bubble';
-                const size = Math.random() * 10 + 5 + 'px';
-                b.style.width = size;
-                b.style.height = size;
-                b.style.left = Math.random() * 100 + '%';
-                container.appendChild(b);
-                setTimeout(() => b.remove(), 4000);
-            }, 300);
+        function openBeer() {
+            const gate = document.getElementById('gate');
+            gate.style.opacity = '0';
+            gate.style.transform = 'scale(1.5)';
+            setTimeout(() => { gate.style.display = 'none'; }, 1200);
         }
     </script>
 </body>
