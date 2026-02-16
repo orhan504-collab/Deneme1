@@ -1,22 +1,31 @@
-// AOS Animasyonlarını Başlat
 AOS.init();
 
-// Yaş Doğrulama Fonksiyonları
 function verifyAge() {
-    // Modalı gizle
     document.getElementById('age-gate').style.display = 'none';
-    // Kullanıcının onayladığını tarayıcıya kaydet (Opsiyonel: Sayfa yenilendiğinde tekrar sormasın diye)
-    localStorage.setItem('ageVerified', 'true');
+    createFoam(); // Giriş yapınca köpükler aksın
 }
 
-function rejectAge() {
-    alert("Üzgünüz, yasal yaş sınırının altındakiler giriş yapamaz.");
-    window.location.href = "https://www.google.com"; // Küçükleri Google'a yönlendir
-}
-
-// Sayfa yüklendiğinde daha önce onay verip vermediğini kontrol et
-window.onload = function() {
-    if(localStorage.getItem('ageVerified') === 'true') {
-        document.getElementById('age-gate').style.display = 'none';
+function createFoam() {
+    const container = document.getElementById('foam-container');
+    
+    for (let i = 0; i < 50; i++) {
+        setTimeout(() => {
+            const foam = document.createElement('div');
+            foam.className = 'foam';
+            
+            // Rastgele boyut ve konum
+            const size = Math.random() * 20 + 10 + 'px';
+            foam.style.width = size;
+            foam.style.height = size;
+            foam.style.left = (Math.random() * 60 + 20) + '%'; // Şişenin etrafından dökülür
+            
+            container.appendChild(foam);
+            
+            // Belleği temizlemek için köpüğü kaldır
+            setTimeout(() => foam.remove(), 2000);
+        }, i * 50);
     }
 }
+
+// Şişeye tıklayınca da köpürsün
+document.getElementById('bottle').addEventListener('click', createFoam);
