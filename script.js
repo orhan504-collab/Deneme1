@@ -1,31 +1,44 @@
-AOS.init();
+// Animasyonları başlat
+AOS.init({ duration: 1000, once: true });
 
+// Yaş Kontrolü
 function verifyAge() {
-    document.getElementById('age-gate').style.display = 'none';
-    createFoam(); // Giriş yapınca köpükler aksın
+    document.getElementById('age-gate').style.fadeOut = "slow";
+    setTimeout(() => {
+        document.getElementById('age-gate').style.display = 'none';
+        startPouring(); // Giriş yapınca köpükler aksın
+    }, 500);
 }
 
-function createFoam() {
+function rejectAge() {
+    alert("Üzgünüz, 18 yaşından küçükler giriş yapamaz.");
+    window.location.href = "https://www.google.com";
+}
+
+// Köpük Efekti Fonksiyonu
+function startPouring() {
     const container = document.getElementById('foam-container');
     
-    for (let i = 0; i < 50; i++) {
+    // 60 tane köpük taneciği oluştur
+    for (let i = 0; i < 60; i++) {
         setTimeout(() => {
             const foam = document.createElement('div');
             foam.className = 'foam';
             
-            // Rastgele boyut ve konum
-            const size = Math.random() * 20 + 10 + 'px';
+            const size = Math.random() * 30 + 10 + 'px';
             foam.style.width = size;
             foam.style.height = size;
-            foam.style.left = (Math.random() * 60 + 20) + '%'; // Şişenin etrafından dökülür
+            
+            // Şişenin ağız kısmından rastgele yayılma
+            foam.style.left = (Math.random() * 40 + 30) + '%';
             
             container.appendChild(foam);
             
-            // Belleği temizlemek için köpüğü kaldır
+            // Animasyon bitince temizle
             setTimeout(() => foam.remove(), 2000);
-        }, i * 50);
+        }, i * 40);
     }
 }
 
-// Şişeye tıklayınca da köpürsün
-document.getElementById('bottle').addEventListener('click', createFoam);
+// Şişeye tıklandığında köpüğü tekrar başlat
+document.getElementById('bottle').addEventListener('click', startPouring);
