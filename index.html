@@ -19,38 +19,37 @@
             display: flex; justify-content: center; align-items: center;
         }
 
-        /* ŞİŞE (ARKADA KALACAK) */
+        /* ŞİŞE (ARKADA) */
         .bottle-img {
-            height: 80vh;
+            height: 75vh; /* Şişeyi de hafif küçülterek genel dengeyi sağladım */
             position: relative;
-            z-index: 5; /* Bardağın altında kalması için düşük değer */
+            z-index: 5;
             filter: drop-shadow(0 0 20px rgba(0,0,0,0.8));
         }
 
-        /* BARDAK GIF (TAM ÖNDE BELİRECEK) */
+        /* BARDAK GIF (ÖNDE VE KÜÇÜLTÜLMÜŞ) */
         #beer-glass {
-            height: 70vh;
+            height: 55vh; /* Boyutu %70'ten %55'e indirdim, böylece ekrana tam sığar */
             position: absolute;
             left: 50%;
-            bottom: 10%;
-            /* Şişenin tam önünü kapatacak şekilde ortalandı */
-            transform: translateX(-50%) scale(0.8); 
-            z-index: 20; /* En üst katman: Şişe (5) ve Köpüğün (15) üstünde */
+            bottom: 12%; /* Alt kısımdan biraz daha yukarı aldım */
+            transform: translateX(-50%) scale(0.7); /* Başlangıçta daha küçük ve merkezde */
+            z-index: 20;
             opacity: 0;
-            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.5s ease-out;
             pointer-events: none;
         }
 
         /* Sipariş butonuna basınca aktif olan sınıf */
         #beer-glass.show {
             opacity: 1;
-            transform: translateX(-50%) scale(1);
+            transform: translateX(-50%) scale(1); /* Belirirken hafifçe normal boyutuna gelir */
         }
 
-        /* KÖPÜK EFEKTİ (Şişe ve Bardak arasında) */
+        /* KÖPÜK EFEKTİ */
         .foam-emitter {
             position: absolute;
-            top: 11%; left: 50%;
+            top: 13%; left: 50%;
             transform: translateX(-50%);
             width: 50px; 
             z-index: 15; 
@@ -68,15 +67,15 @@
 
         @keyframes flowToButton {
             0% { top: 0; transform: scale(0.5); opacity: 1; }
-            100% { top: 70vh; transform: scale(1.5); opacity: 0; }
+            100% { top: 65vh; transform: scale(1.5); opacity: 0; }
         }
 
         /* BUTON ALANI */
         .bottom-ui {
             position: absolute;
-            bottom: 60px; left: 50%;
+            bottom: 50px; left: 50%;
             transform: translateX(-50%);
-            z-index: 30; /* Buton her zaman en üstte tıklanabilir kalmalı */
+            z-index: 30;
             width: 100%;
             text-align: center;
         }
@@ -87,12 +86,11 @@
             -webkit-backdrop-filter: blur(10px);
             color: #fff;
             border: 1px solid rgba(255, 255, 255, 0.4);
-            padding: 15px 45px;
-            font-size: 1.2rem;
+            padding: 12px 35px;
+            font-size: 1.1rem;
             border-radius: 50px;
             cursor: pointer;
             text-transform: uppercase;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
         #gate {
@@ -126,7 +124,6 @@
 
     <script>
         function orderBeer() {
-            // Tıklayınca bardağı gösteren sınıfı ekle
             const glass = document.getElementById('beer-glass');
             glass.classList.add('show');
         }
