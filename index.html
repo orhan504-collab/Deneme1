@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Köpüklü Bira Siparişi</title>
+    <title>Bira Sipariş Etkileşimi</title>
     <style>
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
@@ -19,113 +19,81 @@
             display: flex; justify-content: center; align-items: center;
         }
 
+        /* ŞİŞE (ARKADA KALACAK) */
         .bottle-img {
             height: 80vh;
-            object-fit: contain;
-            z-index: 1;
-            filter: drop-shadow(0 0 20px rgba(0,0,0,0.5));
+            position: relative;
+            z-index: 5; /* Bardağın altında kalması için düşük değer */
+            filter: drop-shadow(0 0 20px rgba(0,0,0,0.8));
         }
 
-        /* --- YENİ: KÖPÜK EFEKTİ --- */
-        
-        /* Köpüklerin çıkış noktası (Şişenin ağzı) */
+        /* BARDAK GIF (TAM ÖNDE BELİRECEK) */
+        #beer-glass {
+            height: 70vh;
+            position: absolute;
+            left: 50%;
+            bottom: 10%;
+            /* Şişenin tam önünü kapatacak şekilde ortalandı */
+            transform: translateX(-50%) scale(0.8); 
+            z-index: 20; /* En üst katman: Şişe (5) ve Köpüğün (15) üstünde */
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+        }
+
+        /* Sipariş butonuna basınca aktif olan sınıf */
+        #beer-glass.show {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+
+        /* KÖPÜK EFEKTİ (Şişe ve Bardak arasında) */
         .foam-emitter {
             position: absolute;
-            /* Bu değerler şişenizin ağız konumuna göre hafifçe değişebilir */
-            top: 11%; 
-            left: 50%;
+            top: 11%; left: 50%;
             transform: translateX(-50%);
-            width: 50px; /* Şişe ağzı genişliği kadar */
-            height: 20px;
-            z-index: 15; /* Düğmenin (z-index:10) üstünde olması için yüksek verdik */
-            pointer-events: none; /* Tıklamaları engellemesin */
+            width: 50px; 
+            z-index: 15; 
+            pointer-events: none;
         }
 
-        /* Tekil köpük baloncukları */
         .bubble {
             position: absolute;
-            background: rgba(255, 255, 255, 0.95); /* Neredeyse tam beyaz */
-            border-radius: 50%; /* Yuvarlak */
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Hafif gölge */
-            filter: blur(1px); /* Hafif bulanıklık gerçekçilik katar */
-            opacity: 0; /* Başlangıçta görünmez */
-            /* Animasyon tanımları: isim, süre, hız eğrisi, sonsuz döngü */
-            animation: flowToButton ease-in infinite;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            filter: blur(1px);
+            opacity: 0;
+            animation: flowToButton 3s ease-in infinite;
         }
 
-        /* Köpüğün akış animasyonu */
         @keyframes flowToButton {
-            0% {
-                top: 0; /* Ağızdan başla */
-                transform: scale(0.5) translateX(0); /* Küçük başla */
-                opacity: 1; /* Görünür ol */
-            }
-            70% {
-                opacity: 0.9; /* Aşağı inerken hala belirgin */
-            }
-            100% {
-                /* Düğmenin olduğu yere kadar in (Ekran boyuna göre değişir) */
-                top: 75vh; 
-                /* Aşağı indikçe büyüsün ve sağa/sola saçılsın (var--drift ile) */
-                transform: scale(1.5) translateX(var(--drift));
-                opacity: 0; /* Düğmenin orada kaybolsun */
-            }
+            0% { top: 0; transform: scale(0.5); opacity: 1; }
+            100% { top: 70vh; transform: scale(1.5); opacity: 0; }
         }
 
-        /* Her baloncuğa rastgelelik katmak için özel ayarlar */
-        /* --drift: Sağa sola ne kadar kayacağı */
-        /* animation-duration: Ne kadar sürede düşeceği */
-        /* animation-delay: Ne zaman başlayacağı (akışkanlık için önemli) */
-        .b1 { width:12px; height:12px; left:5px;  --drift: -30px; animation-duration: 3s; animation-delay: 0s; }
-        .b2 { width:18px; height:18px; left:20px; --drift: 20px;  animation-duration: 4s; animation-delay: 0.5s; }
-        .b3 { width:10px; height:10px; left:35px; --drift: -10px; animation-duration: 2.5s; animation-delay: 1s; }
-        .b4 { width:22px; height:22px; left:10px; --drift: 40px;  animation-duration: 3.5s; animation-delay: 1.5s; }
-        .b5 { width:15px; height:15px; left:28px; --drift: -40px; animation-duration: 4.2s; animation-delay: 2s; }
-        .b6 { width:14px; height:14px; left:15px; --drift: 10px;  animation-duration: 3.2s; animation-delay: 2.5s; }
-        .b7 { width:20px; height:20px; left:30px; --drift: -20px; animation-duration: 3.8s; animation-delay: 0.8s; }
-
-
-        /* ALT BUTON ALANI */
+        /* BUTON ALANI */
         .bottom-ui {
             position: absolute;
-            bottom: 80px;
-            left: 50%;
+            bottom: 60px; left: 50%;
             transform: translateX(-50%);
-            z-index: 10;
+            z-index: 30; /* Buton her zaman en üstte tıklanabilir kalmalı */
             width: 100%;
             text-align: center;
         }
 
         .glass-btn {
             background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             color: #fff;
-            border: 2px solid rgba(255, 255, 255, 0.5); /* Kenarlığı biraz daha belirginleştirdim ki köpük altında kaybolmasın */
-            padding: 18px 50px;
-            font-size: 1.3rem;
-            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 15px 45px;
+            font-size: 1.2rem;
             border-radius: 50px;
             cursor: pointer;
-            letter-spacing: 1px;
             text-transform: uppercase;
-            position: relative;
-            overflow: hidden; /* Köpükler butonun içinden geçiyormuş gibi hissettirir */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
-        
-        /* Butona hafif bir parlama efekti ekleyelim */
-        .glass-btn::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(to bottom right, rgba(255,255,255,0.3), transparent);
-            transform: rotate(45deg);
-            animation: shine 3s infinite;
-        }
-        @keyframes shine { 0% {left: -100%;} 100% {left: 100%;} }
 
         #gate {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -141,24 +109,28 @@
     </div>
 
     <div class="stage">
-        
+        <img src="bardak.gif" id="beer-glass" alt="Bardak">
+
         <div class="foam-emitter">
-            <div class="bubble b1"></div>
-            <div class="bubble b2"></div>
-            <div class="bubble b3"></div>
-            <div class="bubble b4"></div>
-            <div class="bubble b5"></div>
-            <div class="bubble b6"></div>
-            <div class="bubble b7"></div>
+            <div class="bubble" style="left:10px; animation-delay:0s;"></div>
+            <div class="bubble" style="left:25px; animation-delay:1s;"></div>
+            <div class="bubble" style="left:40px; animation-delay:2s;"></div>
         </div>
 
-        <img src="bira-sisesi.png" class="bottle-img" alt="Bira Şişesi">
+        <img src="bira-sisesi.png" class="bottle-img" alt="Şişe">
 
         <div class="bottom-ui">
-            <button class="glass-btn">SİPARİŞ VER<bir/button>
+            <button class="glass-btn" onclick="orderBeer()">SİPARİŞ VER</button>
         </div>
-
     </div>
+
+    <script>
+        function orderBeer() {
+            // Tıklayınca bardağı gösteren sınıfı ekle
+            const glass = document.getElementById('beer-glass');
+            glass.classList.add('show');
+        }
+    </script>
 
 </body>
 </html>
