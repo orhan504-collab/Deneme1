@@ -1,1 +1,49 @@
+body {
+    background-color: #0f0f0f; /* Derin siyah */
+    color: #e0e0e0;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+}
 
+.container {
+    padding: 50px 20px;
+    text-align: center;
+}
+
+h1 {
+    color: #ffb400; /* Bira/Kehribar sarısı */
+    font-size: 3rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 50px;
+}
+
+.card {
+    background: #1a1a1a;
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid #333;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    border-color: #ffb400;
+    transform: translateY(-10px);
+}
+
+.order-btn {
+    background: #ffb400;
+    color: #000;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 15px;
+}
