@@ -3,43 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Boutique Beer Experience</title>
+    <title>Bira Sipariş | Premium Experience</title>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div id="age-gate" class="age-gate-overlay">
-        <div class="age-gate-content">
+        <div class="age-gate-content" data-aos="zoom-in">
             <h2>DUR! 🛑</h2>
-            <p>Devam etmek için 18 yaşından büyük olmalısınız.</p>
-            <button onclick="verifyAge()" class="btn-yes">GİRİŞ YAP</button>
+            <p>Bu siteye giriş yapmak için 18 yaşından büyük olmalısınız.</p>
+            <div class="age-gate-buttons">
+                <button onclick="verifyAge()" class="btn-yes">EVET, 18+ YAŞINDAYIM</button>
+                <button onclick="rejectAge()" class="btn-no">HAYIR</button>
+            </div>
         </div>
     </div>
 
     <header class="hero">
-        <div class="beer-animation">
-            <div class="bottle" id="bottle">🍾</div>
+        <div class="beer-wrap">
+            <div class="bottle" id="bottle">🍺</div>
             <div class="foam-container" id="foam-container"></div>
         </div>
-        <h1 data-aos="fade-down">Soğuk ve Taze</h1>
-        <p>Seçkin tatlar kapına gelsin.</p>
+        <h1 data-aos="fade-down" data-aos-delay="300">Soğuk ve Taze</h1>
+        <p data-aos="fade-up" data-aos-delay="500">Özel harman biralar bir tıkla kapınızda.</p>
     </header>
 
     <main class="product-grid">
         <div class="card" data-aos="fade-up">
-            <div class="product-img">🍺</div>
-            <h3>IPA Serisi</h3>
+            <div class="product-icon">🍺</div>
+            <h3>IPA Craft Serisi</h3>
+            <p>Yoğun aroma, keskin içim.</p>
             <button class="order-btn">Sipariş Ver</button>
         </div>
         <div class="card" data-aos="fade-up" data-aos-delay="200">
-            <div class="product-img">🍺</div>
-            <h3>Klasik Fıçı</h3>
+            <div class="product-icon">🍻</div>
+            <h3>Klasik Lager</h3>
+            <p>Her zaman taze, her zaman serin.</p>
+            <button class="order-btn">Sipariş Ver</button>
+        </div>
+        <div class="card" data-aos="fade-up" data-aos-delay="400">
+            <div class="product-icon">🍷</div>
+            <h3>Red Ale Özel</h3>
+            <p>Karamel notalarıyla zengin.</p>
             <button class="order-btn">Sipariş Ver</button>
         </div>
     </main>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="script.js"></script>
-</body>
-</html>
+    <script src="script.js"></script
+        
