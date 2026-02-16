@@ -47,3 +47,39 @@ h1 {
     cursor: pointer;
     margin-top: 15px;
 }
+.age-gate-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 9999; /* Her şeyin üstünde görünmesi için */
+    backdrop-filter: blur(10px);
+}
+
+.age-gate-content {
+    background: #1a1a1a;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    border: 2px solid #ffb400;
+    max-width: 400px;
+}
+
+.btn-yes {
+    background: #ffb400;
+    color: black;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.btn-no {
+    background: transparent;
+    color: #ff4444;
+    border: 1px solid #ff4444;
+    padding: 15px 25px;
+    cursor: pointer;
+}
